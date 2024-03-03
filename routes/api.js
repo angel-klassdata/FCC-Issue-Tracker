@@ -14,7 +14,7 @@ module.exports = function (app) {
       try {
         const project = await ProjectModel.findOne({ name: projectName });
         if (!project) {
-          res.json([{ error: "Project not found" }]);
+          res.json([{ error: "project not found" }]);
           return;
         } else {
           const issues = await IssueModel.find({
@@ -22,14 +22,14 @@ module.exports = function (app) {
             ...req.query,
           });
           if (!issues) {
-            res.json([{ error: "No issues found" }]);
+            res.json([{ error: "no issues found" }]);
             return;
           }
           res.json(issues);
           return;
         }
       } catch (err) {
-        res.json({ error: "Could not get", _id: _id });
+        res.json({ error: "could not get", _id: _id });
       }
     })
 
@@ -38,7 +38,7 @@ module.exports = function (app) {
       const { issue_title, issue_text, created_by, assigned_to, status_text } = 
         req.body;
       if (!issue_title || !issue_text || !created_by) {
-        res.json({ error: "Required field(s) missing" });
+        res.json({ error: "required field(s) missing" });
         return;
       }
       try {
@@ -61,7 +61,7 @@ module.exports = function (app) {
         const issue = await issueModel.save();
         res.json(issue);
       } catch (err) {
-        res.json({ error: "Could not post", _id: _id });
+        res.json({ error: "could not post", _id: _id });
       }
     })
 
@@ -77,7 +77,7 @@ module.exports = function (app) {
         open,
       } = req.body;
       if (!_id) {
-        res.json({ error: "Missing _id" });
+        res.json({ error: "missing _id" });
         return;
       }
       if (
@@ -88,7 +88,7 @@ module.exports = function (app) {
         !status_text &&
         !open
       ) {
-        res.json({ error: "No update field(s) sent", _id: _id });
+        res.json({ error: "no update field(s) sent", _id: _id });
         return;
       }
       try {
@@ -101,9 +101,9 @@ module.exports = function (app) {
           updated_on: new Date(),
         });
         await issue.save();
-        res.json({ result: "Successfully updated", _id: _id });
+        res.json({ result: "successfully updated", _id: _id });
       } catch (err) {
-          res.json({error: "Could not update", _id: _id });
+          res.json({error: "could not update", _id: _id });
       }
     })
 
@@ -111,13 +111,13 @@ module.exports = function (app) {
       let projectName = req.params.project;
       const { _id } = req.body;
       if (!_id) {
-        res.json({ error: "Missing _id" });
+        res.json({ error: "missing _id" });
         return;
       }
       try {
         const projectModel = await ProjectModel.findOne({ name: projectName });
         if (!projectModel) {
-          throw new Error("Project not found");
+          throw new Error("project not found");
         }
         const result = await IssueModel.deleteOne({
           _id: _id,
@@ -126,9 +126,9 @@ module.exports = function (app) {
         if (result.deletedCount === 0) {
           throw new Error("ID not found");
         }
-        res.json({ result: "Successfully deleted", _id: _id });
+        res.json({ result: "successfully deleted", _id: _id });
       } catch (err) {
-        res.json({ error: "Could not delete", _id: _id });
+        res.json({ error: "could not delete", _id: _id });
       }
     });
   };
